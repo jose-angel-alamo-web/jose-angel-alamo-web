@@ -1,4 +1,4 @@
-# 🏫 Plataforma Web Institucional — U.E.N José Ángel Álamo
+#  Plataforma Web Institucional — U.E.N José Ángel Álamo
 
 Este repositorio contiene el código fuente de la plataforma web oficial y el sistema de gestión de contenidos de la **Unidad Educativa Nacional José Ángel Álamo**.
 
@@ -6,7 +6,7 @@ El sistema ha sido diseñado como una solución integral para modernizar la comu
 
 ---
 
-## 🏗️ Arquitectura Tecnológica
+##  Arquitectura Tecnológica
 
 El proyecto está construido bajo una arquitectura **cliente-servidor separada**, garantizando escalabilidad y un mantenimiento eficiente.
 
@@ -18,15 +18,15 @@ El proyecto está construido bajo una arquitectura **cliente-servidor separada**
 
 ---
 
-## ✨ Características Principales
+##  Características Principales
 
-### 🌐 Portal Público (Frontend)
+###  Portal Público (Frontend)
 
 - **Cartelera Informativa:** Visualización en tiempo real de noticias y comunicados oficiales.
 - **Zona de Descargas:** Sistema de filtrado automático que permite a los usuarios descargar planillas PDF categorizadas (*Nuevo Ingreso*, *Estudiantes Regulares*, *Otros*).
 - **Diseño Responsivo:** Adaptable a dispositivos móviles, tablets y equipos de escritorio.
 
-### 🔒 Panel Administrativo (Backend/CMS)
+###  Panel Administrativo (Backend/CMS)
 
 - **Autenticación Segura:** Acceso restringido mediante validación de Tokens (*Token Authentication*).
 - **Recuperación de Acceso:** Sistema integrado de restablecimiento de contraseñas vía correo electrónico (SMTP Gmail).
@@ -35,7 +35,7 @@ El proyecto está construido bajo una arquitectura **cliente-servidor separada**
 
 ---
 
-## ⚙️ Instalación y Configuración Local
+##  Instalación y Configuración Local
 
 Para ejecutar este proyecto en un entorno de desarrollo local, siga los siguientes pasos:
 
@@ -79,7 +79,7 @@ npm run dev
 
 ---
 
-## 🔑 Variables de Entorno
+##  Variables de Entorno
 
 Para el correcto funcionamiento del sistema en producción, el servidor backend requiere la configuración de las siguientes variables:
 
@@ -92,12 +92,12 @@ Para el correcto funcionamiento del sistema en producción, el servidor backend 
 
 ---
 
-## 📖 Manual de Usuario Admin
+##  Manual de Usuario Admin
 
-[📄 Ver Manual en Google Drive](https://drive.google.com/file/d/1RGrFfS-PquWdlnNa_PdD7bhJuaj00GNC/view?usp=sharing)
+[ Ver Manual en Google Drive](https://drive.google.com/file/d/1RGrFfS-PquWdlnNa_PdD7bhJuaj00GNC/view?usp=sharing)
 
 ---
 
-## 📄 Licencia
+##  Licencia
 
 Desarrollado como proyecto académico e institucional para la **U.E.N José Ángel Álamo**.

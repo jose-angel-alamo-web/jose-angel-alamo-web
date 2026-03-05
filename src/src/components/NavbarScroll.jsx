@@ -16,7 +16,7 @@ const NavbarScroll = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const logoUrl = "https://i.imgur.com/nYzYxzn.png";
+  const logoUrl = "https://imgur.com/a/j-new-3vLxW98";
 
   const theme = {
     primary: "bg-[#1B3A57]",

@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <div className="bg-white p-2 rounded-lg shadow-md h-16 w-16 flex items-center justify-center">
               <img 
-                src="https://i.imgur.com/1tbjjyM.png" 
+                src="https://i.imgur.com/yoiUI2Z.png" 
                 alt="Escudo" 
                 className="w-full h-auto object-contain" 
               />

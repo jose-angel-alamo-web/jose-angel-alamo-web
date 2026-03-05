@@ -24,7 +24,7 @@ const theme = {
   bgLight: "bg-[#FDFBF7]",
 };
 
-const logoUrl = "https://i.imgur.com/1tbjjyM.png";
+const logoUrl = "https://i.imgur.com/yoiUI2Z.png";
 
 const SchoolAdmin = () => {
   const [token, setToken] = useState(localStorage.getItem("adminToken"));

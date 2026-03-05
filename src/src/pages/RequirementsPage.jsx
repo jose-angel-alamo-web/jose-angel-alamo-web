@@ -32,7 +32,7 @@ const RequirementsPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 6
-  const logoUrl = "https://i.imgur.com/1tbjjyM.png";
+  const logoUrl = "https://i.imgur.com/yoiUI2Z.png";
   const headerBg = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=1600"; // Imagen de biblioteca/documentos
 
   const theme = {

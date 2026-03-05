@@ -55,7 +55,7 @@ const SchoolHomePage = () => {
   };
 
   // Tema y Recursos
-  const heroImage = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvWQvxPU954VDKsmiMJhyphenhyphenYzYsgn-TS9vnijsNtzl2aKbl5vXBvwX1gYk7cZM5Ep-Whiqm6UB20VeDDnG7zr3Jv5XK8ZTwOppb90EQvmMS2HeL-FZFHxP5ifebeadLULhY90Qka9GH7h-ou/s1600/IMG00200.jpg";
+  const heroImage = "https://i.imgur.com/5mVBq5V.jpeg";
   const theme = {
     primary: "bg-[#1B3A57]",
     primaryText: "text-[#1B3A57]",

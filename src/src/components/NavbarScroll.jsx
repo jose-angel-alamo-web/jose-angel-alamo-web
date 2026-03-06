@@ -59,7 +59,7 @@ const NavbarScroll = () => {
               isScrolled ? "text-lg" : "text-xl"
             }`}
           >
-            U.E.N José Ángel Álamo
+            Liceo José Ángel Álamo
           </span>
         </Link>
 

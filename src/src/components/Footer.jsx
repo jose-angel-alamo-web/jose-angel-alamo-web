@@ -16,7 +16,7 @@ const Footer = () => {
               />
             </div>
             <div className="text-left">
-              <h4 className="text-white font-serif font-bold text-lg">U.E.N José Ángel Álamo</h4>
+              <h4 className="text-white font-serif font-bold text-lg">Liceo José Ángel Álamo</h4>
               <p className="text-xs uppercase tracking-widest text-gray-500">Desde 1967, educando para la vida.</p>
             </div>
           </div>
@@ -34,7 +34,7 @@ const Footer = () => {
 
         {/* Sección inferior con Copyright y acceso Admin oculto */}
         <div className="max-w-7xl mx-auto px-6 mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
-          <p>© {new Date().getFullYear()} U.E.N José Ángel Álamo. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} Liceo José Ángel Álamo. Todos los derechos reservados.</p>
           
           {/* Enlace para Admin */}
           <Link 

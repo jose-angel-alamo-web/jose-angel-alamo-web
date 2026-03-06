@@ -38,7 +38,7 @@ const Navbar = () => {
           <span
             className="font-serif font-bold text-white tracking-wide transition-all duration-300 text-lg"
           >
-            U.E.N José Ángel Álamo
+            Liceo José Ángel Álamo
           </span>
         </Link>
 

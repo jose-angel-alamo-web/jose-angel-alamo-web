@@ -58,7 +58,7 @@ const SchoolAdmin = () => {
         <div className="p-6 flex flex-col items-center border-b border-blue-900/50">
           <img src={logoUrl} alt="Logo" className="w-16 h-16 object-contain mb-3 bg-white rounded-full p-1 shadow-inner" />
           <h2 className="font-serif font-bold text-lg tracking-wide text-center">Panel Administrativo</h2>
-          <p className="text-xs text-blue-200 mt-1">U.E.N José Ángel Álamo</p>
+          <p className="text-xs text-blue-200 mt-1">Liceo José Ángel Álamo</p>
         </div>
 
         <nav className="flex-1 py-6 space-y-2 px-4">

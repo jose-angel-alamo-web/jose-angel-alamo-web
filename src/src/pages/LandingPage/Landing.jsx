@@ -82,7 +82,7 @@ const SchoolHomePage = () => {
             Desde 1967, educando para la vida
           </p>
           <h1 className="text-4xl md:text-6xl font-serif font-bold mb-10 tracking-wide drop-shadow-lg">
-            U.E.N José Ángel Álamo
+            Liceo José Ángel Álamo
           </h1>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/tramites">

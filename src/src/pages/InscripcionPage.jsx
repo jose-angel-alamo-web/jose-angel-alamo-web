@@ -896,8 +896,8 @@ const InscripcionPage = () => {
       const pdfBlob = pdf.output("blob");
       const formData = new FormData();
       formData.append("archivo_pdf", pdfBlob, nombre);
-      formData.append("nombres", data.nombres);
-      formData.append("apellidos", data.apellidos);
+      formData.append("nombre", data.nombres);
+      formData.append("apellido", data.apellidos);
       formData.append("cedula", data.cedula);
       formData.append("grado_cursar", data.gradoCursar);
 

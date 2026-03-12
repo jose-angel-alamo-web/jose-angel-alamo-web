@@ -34,7 +34,7 @@ class RegistroInscripcion(models.Model):
     cedula = models.CharField(max_length=20)
     archivo_pdf = models.FileField(upload_to='registro-inscripciones/')
     fecha_subida = models.DateTimeField(auto_now_add=True)
-    grado_cursar = models.CharField(max_length=50, null=True, blank=True)
+    grado_cursar = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.cedula}"

@@ -90,11 +90,6 @@ const SchoolHomePage = () => {
                 Gestión de Trámites
               </button>
             </Link>
-            <Link to="/inscripcion">
-              <button className="bg-white text-[#1B3A57] font-bold py-3 px-8 rounded ...">
-                Formulario de Inscripción
-              </button>
-            </Link>
           </div>
         </div>
       </header>

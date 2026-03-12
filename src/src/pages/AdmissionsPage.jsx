@@ -117,7 +117,7 @@ const AdmissionsPage = () => {
                   de manera precisa y verificable a través de nuestra plataforma.
                 </p>
                 <Link 
-                  to="/inscripción" 
+                  to="/inscripcion" 
                   className={`inline-flex items-center gap-2 ${theme.accent} text-white px-5 py-2 rounded-md font-bold hover:bg-[#B71C1C] transition-all shadow-sm`}
                 >
                   <FileEdit size={18} />
@@ -191,7 +191,7 @@ const AdmissionsPage = () => {
           </div>
         </div>
 
-        {/* --- NUEVA SECCIÓN: BANNER DE FORMULARIO ONLINE --- */}
+        {/* --- FORMULARIO ONLINE --- */}
         <section className="mt-16 bg-blue-50 border border-blue-100 p-10 rounded-2xl text-center shadow-sm">
           <div className="max-w-3xl mx-auto">
             <FileEdit className="mx-auto mb-4 text-[#1B3A57]" size={48} />
@@ -202,7 +202,7 @@ const AdmissionsPage = () => {
               Acceda a nuestro portal en línea para rellenar la planilla de manera cómoda, rápida y segura.
             </p>
             <Link 
-              to="/inscripción" 
+              to="/inscripcion" 
               className={`inline-flex items-center justify-center gap-3 ${theme.accent} hover:bg-[#B71C1C] text-white text-lg px-8 py-4 rounded-full font-bold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1`}
             >
               <FileEdit size={24} />
@@ -219,7 +219,7 @@ const AdmissionsPage = () => {
           </p>
         </div>
 
-        {/* --- ZONA DE DESCARGAS (Opcional/Adicional) --- */}
+        {/* --- ZONA DE DESCARGAS  --- */}
         <section className="mt-20 border-t border-gray-200 pt-16" id="descargas">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-serif font-bold text-[#1B3A57] mb-4">

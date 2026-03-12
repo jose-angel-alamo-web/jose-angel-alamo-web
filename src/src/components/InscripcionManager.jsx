@@ -68,7 +68,7 @@ const InscripcionesManager = ({ token }) => {
           {inscripciones.map((registro) => (
             <div key={registro.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
               <div className="bg-[#1B3A57] px-4 py-3">
-                <h4 className="font-bold text-white uppercase text-sm">{registro.apellidos}, {registro.nombres}</h4>
+                <h4 className="font-bold text-white uppercase text-sm">{registro.apellido}, {registro.nombre}</h4>
               </div>
               <div className="p-4 space-y-3">
                 <div className="flex items-center gap-2 text-sm text-gray-600">

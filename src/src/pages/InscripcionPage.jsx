@@ -625,7 +625,7 @@ const PdfTemplate = React.forwardRef(({ data }, ref) => {
             <div style={{ fontSize: 15, fontWeight: "900", color: "#000", letterSpacing: 0.5, marginTop: 6 }}>FICHA DE INSCRIPCIÓN</div>
             <div style={{ fontSize: 10, marginTop: 4, color: "#000" }}>
               <strong>Año Escolar:</strong> {new Date().getFullYear() + "-" + (new Date().getFullYear() + 1)} &nbsp;&nbsp;|&nbsp;&nbsp; 
-              <strong>Fecha:</strong> {new Date().toLocaleDateString("es-VE")}
+              <strong>Fecha:</strong> {new Date(inscripcion.fecha_subida).toLocaleDateString("es-VE")}
             </div>
           </div>
         </div>

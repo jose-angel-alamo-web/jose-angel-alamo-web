@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly 
 from .models import Noticia, Archivo, Categoria, RegistroInscripcion
-from .serializers import NoticiaSerializer, ArchivoSerializer, CategoriaSerializer, RegistroInscripcion
+from .serializers import NoticiaSerializer, ArchivoSerializer, CategoriaSerializer, RegistroInscripcionSerializer
 
 class NoticiaViewSet(viewsets.ModelViewSet):
     queryset = Noticia.objects.all().order_by('-fecha_publicacion')

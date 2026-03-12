@@ -909,6 +909,11 @@ const InscripcionPage = () => {
 
       if (!response.ok) {
          console.warn("La planilla se descargó, pero hubo un problema guardándola en el servidor.");
+         const errorDetalle = await response.json();
+         console.error("Error 400 del servidor. Detalle:", errorDetalle);
+         alert("Hubo un error de validación en el servidor. Revisa la consola.");
+         setIsGenerating(false);
+         return
       }
 
       setDone(true);

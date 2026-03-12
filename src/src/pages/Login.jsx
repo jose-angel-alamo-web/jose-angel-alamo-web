@@ -259,7 +259,7 @@ const DashboardHome = ({ changeTab, token }) => {
                 const [noticiasRes, archivosRes, inscripcionesRes] = await Promise.all([
                     fetch(`${API_URL}/api/noticias/`),
                     fetch(`${API_URL}/api/archivos/`),
-                    fetch(`${API_URL}/api/inscripciones/`, {
+                    fetch(`${API_URL}/api/registro-inscripciones/`, {
                         headers: {
                             'Authorization': `Token ${token}` // Autorización obligatoria
                         }

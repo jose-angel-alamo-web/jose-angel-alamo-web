@@ -81,7 +81,7 @@ const InscripcionesManager = ({ token }) => {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Calendar size={16} className="text-gray-400" />
-                  <span className="font-bold">Fecha:</span> {new Date(registro.fecha_llenado).toLocaleDateString('es-VE')}
+                  <span className="font-bold">Fecha:</span> {new Date(registro.subida).toLocaleDateString('es-VE')}
                 </div>
                 
                 <div className="pt-4 border-t border-gray-100 mt-2">

@@ -902,7 +902,7 @@ const InscripcionPage = () => {
       formData.append("grado_cursar", data.gradoCursar);
 
       // 3. Enviar a servidor
-      const response = await fetch(`${API_URL}/api/inscripciones/`, {
+      const response = await fetch(`${API_URL}/api/registro-inscripciones/`, {
         method: "POST",
         body: formData, 
       });

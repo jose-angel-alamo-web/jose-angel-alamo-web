@@ -26,7 +26,7 @@ const InscripcionesManager = ({ token }) => {
 
   const fetchInscripciones = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/inscripciones/`, {
+      const response = await fetch(`${API_URL}/api/registro-inscripciones/`, {
         headers: {
           'Authorization': `Token ${token}` // Requiere autenticación
         }

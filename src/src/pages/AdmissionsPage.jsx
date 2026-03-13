@@ -138,9 +138,7 @@ const AdmissionsPage = () => {
               </h3>
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow">
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Una vez enviada su planilla online, diríjase a la coordinación correspondiente 
-                  al nivel de estudios. Nuestro equipo le ayudará a revisar sus documentos físicos 
-                  y garantizar que estén en orden.
+                  Una vez enviada su planilla online, procure tener los requisitos para la inscripción en formato físico. 
                 </p>
                 <Link 
                   to="/tramites/requisitos" 
@@ -164,8 +162,9 @@ const AdmissionsPage = () => {
               </h3>
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow">
                 <p className="text-gray-600 leading-relaxed">
-                  Con los documentos y la solicitud en línea aprobados, proceda a la validación 
-                  administrativa y de pagos correspondientes según el año cursante para asentar la inscripción.
+                  Con los documentos y la solicitud en línea aprobados, diríjase a la coordinación correspondiente 
+                  al nivel de estudios. Nuestro equipo le ayudará a revisar sus documentos físicos 
+                  y garantizar que estén en orden.
                 </p>
               </div>
             </div>
@@ -182,9 +181,9 @@ const AdmissionsPage = () => {
               </h3>
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow">
                 <p className="text-gray-600 leading-relaxed">
-                  Finalmente, tanto el representante como el estudiante deben firmar el Acta de Compromiso y Normas de Convivencia. 
+                  Finalmente, la planilla que usted envió será impresa y debe como representante firmar el Acta de Compromiso. 
                   Este paso es esencial para sellar el proceso, confirmando que aceptan los reglamentos internos 
-                  y finalizando así la matriculación en el sistema.
+                  y finalizando así la matriculación en el sistema. Estamos complacidos de aceptarle en nuestra institución, le esperamos!
                 </p>
               </div>
             </div>

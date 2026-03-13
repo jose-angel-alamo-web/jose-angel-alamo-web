@@ -125,19 +125,39 @@ const SectionTitle = ({ children }) => (
   </h3>
 );
 
-const YesNoRow = ({ label, value, onChange }) => (
-  <div className="flex items-center gap-4">
-    <span className="text-sm font-semibold text-gray-700 min-w-[120px]">{label}</span>
-    <label className="flex items-center gap-1 cursor-pointer">
-      <input type="radio" name={label} value="si" checked={value === "si"} onChange={() => onChange("si")} className="accent-[#1B3A57]" />
-      <span className="text-sm">Sí</span>
-    </label>
-    <label className="flex items-center gap-1 cursor-pointer">
-      <input type="radio" name={label} value="no" checked={value === "no"} onChange={() => onChange("no")} className="accent-[#1B3A57]" />
-      <span className="text-sm">No</span>
-    </label>
-  </div>
-);
+const YesNoRow = ({ label, value, onChange }) => {
+  const uniqueName = React.useId(); 
+
+  return (
+    <div className="flex items-center gap-4">
+      <span className="text-sm font-semibold text-gray-700 min-w-[120px]">{label}</span>
+      
+      <label className="flex items-center gap-1 cursor-pointer">
+        <input 
+          type="radio" 
+          name={uniqueName}
+          value="si" 
+          checked={value === "si"} 
+          onChange={() => onChange("si")} 
+          className="accent-[#1B3A57]" 
+        />
+        <span className="text-sm">Sí</span>
+      </label>
+      
+      <label className="flex items-center gap-1 cursor-pointer">
+        <input 
+          type="radio" 
+          name={uniqueName}
+          value="no" 
+          checked={value === "no"} 
+          onChange={() => onChange("no")} 
+          className="accent-[#1B3A57]" 
+        />
+        <span className="text-sm">No</span>
+      </label>
+    </div>
+  );
+};
 
 const ImageUpload = ({ label, value, onChange }) => {
   const handleFileChange = (e) => {
@@ -268,7 +288,7 @@ const StepPadres = ({ data, set }) => (
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="flex items-center gap-4 mt-6">
-          <YesNoRow label="¿Ejerce?" value={data.madreEjerce} onChange={v => set("madreEjerce", v)} />
+          <YesNoRow label="¿Ejerce su profesión?" value={data.madreEjerce} onChange={v => set("madreEjerce", v)} />
         </div>
         <Field label="Dir. de Oficina"><Input value={data.madreDirOficina} onChange={e => set("madreDirOficina", e.target.value)} disabled={data.madreVive === "no" || data.madreEjerce === "no"} /></Field>
       </div>
@@ -306,7 +326,7 @@ const StepPadres = ({ data, set }) => (
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="flex items-center gap-4 mt-6">
-          <YesNoRow label="¿Ejerce?" value={data.padreEjerce} onChange={v => set("padreEjerce", v)} />
+          <YesNoRow label="¿Ejerce su profesión?" value={data.padreEjerce} onChange={v => set("padreEjerce", v)} />
         </div>
         <Field label="Dir. de Oficina"><Input value={data.padreDirOficina} onChange={e => set("padreDirOficina", e.target.value)} disabled={data.padreVive === "no" || data.padreEjerce === "no"} /></Field>
       </div>
@@ -384,7 +404,7 @@ const StepRepresentante = ({ data, set }) => (
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center gap-4 mt-6">
-              <YesNoRow label="¿Ejerce?" value={data.repEjerce} onChange={v => set("repEjerce", v)} />
+              <YesNoRow label="¿Ejerce su profesión?" value={data.repEjerce} onChange={v => set("repEjerce", v)} />
             </div>
             <Field label="Dir. de Oficina"><Input value={data.repDirOficina} onChange={e => set("repDirOficina", e.target.value)} disabled={data.repEjerce === "no"} /></Field>
           </div>

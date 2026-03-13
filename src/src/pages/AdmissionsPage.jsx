@@ -143,7 +143,7 @@ const AdmissionsPage = () => {
                   y garantizar que estén en orden.
                 </p>
                 <Link 
-                  to="/requisitos" 
+                  to="/tramites/requisitos" 
                   className="inline-flex items-center gap-2 text-red-700 font-bold hover:underline transition-all"
                 >
                   <ChevronRight size={18} />

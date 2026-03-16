@@ -42,7 +42,7 @@ const FilesManager = ({ token }) => {
 
   const fetchCategorias = async () => {
     try {
-      const response = await api.get('tipos-archivos/'); 
+      const response = await api.get('tipoarchivo/'); 
       setCategorias(response.data);
     } catch (error) {
       console.error("Error cargando categorías:", error);

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { API_URL } from "../config"; 
+import api from '../api/axios'; 
 
 const theme = {
   primary: "bg-[#1B3A57]",
@@ -23,6 +24,7 @@ const FilesManager = ({ token }) => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [categorias, setCategorias] = useState([]); 
 
   const [uploadState, setUploadState] = useState({
     file: null,
@@ -33,26 +35,25 @@ const FilesManager = ({ token }) => {
 
   const fileInputRef = useRef(null);
 
-  // --- AQUÍ DEFINIMOS EL ENDPOINT COMPLETO ---
-  // API_URL es "https://...com" y le sumamos "/api/archivos/"
-  const ENDPOINT = `${API_URL}/api/archivos/`;
-
-  const categories = ["Planilla reingreso", "Planilla nuevo ingreso", "Otro"];
-
   useEffect(() => {
     fetchFiles();
+    fetchCategorias();
   }, []);
+
+  const fetchCategorias = async () => {
+    try {
+      const response = await api.get('tipos-archivos/'); 
+      setCategorias(response.data);
+    } catch (error) {
+      console.error("Error cargando categorías:", error);
+    }
+  };
 
   const fetchFiles = async () => {
     try {
-      // USAMOS LA VARIABLE ENDPOINT
-      const response = await fetch(ENDPOINT);
-      if (response.ok) {
-        const data = await response.json();
-        setFiles(data);
-      } else {
-        console.error("Error fetching files:", response.status);
-      }
+      setLoading(true);
+      const response = await api.get('archivos/');
+      setFiles(response.data);
     } catch (error) {
       console.error("Error cargando archivos:", error);
     } finally {
@@ -108,33 +109,26 @@ const FilesManager = ({ token }) => {
 
     const formData = new FormData();
     formData.append("titulo", uploadState.title);
-    formData.append("categoria", uploadState.category);
+    formData.append("tipo_archivo", uploadState.category); 
     formData.append("archivo_pdf", uploadState.file); 
 
     try {
-      // USAMOS ENDPOINT AQUÍ TAMBIÉN
-      const response = await fetch(ENDPOINT, {
-        method: "POST",
+      await api.post('archivos/', formData, {
         headers: {
-            "Authorization": `Token ${token}`
-        },
-        body: formData,
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
-      if (response.ok) {
-        // Usamos alert por si no tienes toast configurado en el root
-        alert("Archivo subido correctamente"); 
-        handleCancelUpload();
-        fetchFiles();
-      } else {
-        setUploadState((prev) => ({
-          ...prev,
-          error: "Error al subir. ¿Está iniciada la sesión?",
-        }));
-      }
+      alert("Archivo subido correctamente"); 
+      handleCancelUpload();
+      fetchFiles();
+      
     } catch (error) {
       console.error("Error subiendo:", error);
-      setUploadState((prev) => ({ ...prev, error: "Error de conexión." }));
+      setUploadState((prev) => ({ 
+        ...prev, 
+        error: error.response?.data?.detail || "Error de conexión o de validación." 
+      }));
     } finally {
       setUploading(false);
     }
@@ -144,21 +138,12 @@ const FilesManager = ({ token }) => {
     if (!window.confirm("¿Estás seguro de eliminar este archivo?")) return;
 
     try {
-      // USAMOS ENDPOINT + ID
-      const response = await fetch(`${ENDPOINT}${id}/`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `Token ${token}`
-        },
-      });
-
-      if (response.ok) {
-        setFiles(files.filter((f) => f.id !== id));
-      } else {
-        alert("No se pudo eliminar. Verifique su sesión.");
-      }
+      await api.delete(`archivos/${id}/`);
+      setFiles(files.filter((f) => f.id !== id));
+      
     } catch (error) {
       console.error("Error borrando:", error);
+      alert("No se pudo eliminar. Verifique su sesión.");
     }
   };
 
@@ -256,9 +241,9 @@ const FilesManager = ({ token }) => {
                   <option value="" disabled>
                     Seleccione...
                   </option>
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
+                  {categorias.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.nombre}
                     </option>
                   ))}
                 </select>
@@ -333,66 +318,71 @@ const FilesManager = ({ token }) => {
                   </td>
                 </tr>
               ) : (
-                files.map((file) => (
-                  <tr
-                    key={file.id}
-                    className="border-b border-gray-50 hover:bg-blue-50/50 transition-colors group"
-                  >
-                    <td className="py-4 pl-4">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-red-50 p-2 rounded text-red-600">
-                          <FileText size={20} />
+                files.map((file) => {
+                  // Fallback por si acaso la información del tipo de archivo no venga completa
+                  const nombreCategoria = file.tipo_archivo_nombre || file.categoria || "Sin categoría";
+
+                  return (
+                    <tr
+                      key={file.id}
+                      className="border-b border-gray-50 hover:bg-blue-50/50 transition-colors group"
+                    >
+                      <td className="py-4 pl-4">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-red-50 p-2 rounded text-red-600">
+                            <FileText size={20} />
+                          </div>
+                          <div>
+                            <p className={`font-bold ${theme.primaryText}`}>
+                              {file.titulo}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              {file.size_formatted || "PDF"}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className={`font-bold ${theme.primaryText}`}>
-                            {file.titulo}
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            {file.size_formatted || "PDF"}
-                          </p>
+                      </td>
+                      <td className="py-4">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium border
+                          ${
+                            nombreCategoria.toLowerCase().includes("nuevo")
+                              ? "bg-green-50 text-green-700 border-green-100"
+                              : nombreCategoria.toLowerCase().includes("reingreso")
+                                ? "bg-blue-50 text-blue-700 border-blue-100"
+                                : "bg-gray-100 text-gray-600 border-gray-200"
+                          }
+                        `}
+                        >
+                          {nombreCategoria}
+                        </span>
+                      </td>
+                      <td className="py-4 text-gray-500">
+                        {formatDate(file.fecha_subida)}
+                      </td>
+                      <td className="py-4 text-right pr-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <a
+                            href={file.archivo_pdf}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-[#1B3A57] p-2 hover:bg-blue-50 rounded-full transition"
+                            title="Descargar / Ver"
+                          >
+                            <Download size={18} />
+                          </a>
+                          <button
+                            onClick={() => handleDelete(file.id)}
+                            className="text-gray-400 hover:text-red-600 p-2 hover:bg-red-50 rounded-full transition"
+                            title="Eliminar"
+                          >
+                            <Trash2 size={18} />
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-4">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium border
-                        ${
-                          (file.categoria || "").includes("nuevo")
-                            ? "bg-green-50 text-green-700 border-green-100"
-                            : (file.categoria || "").includes("reingreso")
-                              ? "bg-blue-50 text-blue-700 border-blue-100"
-                              : "bg-gray-100 text-gray-600 border-gray-200"
-                        }
-                      `}
-                      >
-                        {file.categoria || "Sin categoría"}
-                      </span>
-                    </td>
-                    <td className="py-4 text-gray-500">
-                      {formatDate(file.fecha_subida)}
-                    </td>
-                    <td className="py-4 text-right pr-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <a
-                          href={file.archivo_pdf}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-[#1B3A57] p-2 hover:bg-blue-50 rounded-full transition"
-                          title="Descargar / Ver"
-                        >
-                          <Download size={18} />
-                        </a>
-                        <button
-                          onClick={() => handleDelete(file.id)}
-                          className="text-gray-400 hover:text-red-600 p-2 hover:bg-red-50 rounded-full transition"
-                          title="Eliminar"
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>

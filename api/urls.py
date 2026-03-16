@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (NoticiaViewSet, ArchivoViewSet, CategoriaViewSet, 
-                    TipoArchivoViewSet, GradoViewSet, RegistroInscripcionViewSet, RegistroUsuarioView)
+                    TipoArchivoViewSet, GradoViewSet, RegistroInscripcionViewSet, RegistroUsuarioView, AdminLoginView)
 
 router = DefaultRouter()
 router.register(r'noticias', NoticiaViewSet)
@@ -14,4 +14,5 @@ router.register(r'registro-inscripciones', RegistroInscripcionViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('registro/', RegistroUsuarioView.as_view(), name='registro_usuario')
+    path('admin-login/', AdminLoginView.as_view(), name='admin_login')
 ]

@@ -3,14 +3,31 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from .models import Noticia, Auditoria, Archivo, Categoria, TipoArchivo, Grado, RegistroInscripcion
 from .serializers import (NoticiaSerializer, ArchivoSerializer, CategoriaSerializer, 
                           TipoArchivoSerializer, GradoSerializer, RegistroInscripcionSerializer)
-
+        
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 
+# serializador personalizado para el dmin
+class AdminTokenSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        # primero valida que el usuario y contraseña sean correctos
+        data = super().validate(attrs)
+        
+        # Luego verifica el ROL
+        if not self.user.is_staff:
+            raise AuthenticationFailed("Acceso denegado. Esta cuenta no tiene privilegios de administrador.")
+            
+        return data
 
+# vista que usa ese serializador
+class AdminLoginView(TokenObtainPairView):
+    serializer_class = AdminTokenSerializer
 
 class RegistroUsuarioView(APIView):
     permission_classes = [AllowAny] 

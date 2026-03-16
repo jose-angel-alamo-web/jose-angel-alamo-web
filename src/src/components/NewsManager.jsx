@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import toast from 'react-hot-toast';
+import api from '../api/axios';
 import { API_URL } from "../config";
 
 const theme = {
@@ -27,7 +28,7 @@ const NewsManager = ({ token }) => {
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
   
-  // NUEVO ESTADO: Rastrea si estamos editando una noticia
+  // Rastrea si estamos editando una noticia
   const [editingId, setEditingId] = useState(null);
   
   const [formData, setFormData] = useState({
@@ -47,11 +48,8 @@ const NewsManager = ({ token }) => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/noticias/`)
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      }
+      const response = await api.get('noticias/'); 
+      setPosts(response.data);
     } catch (error) {
       console.error("Error cargando noticias:", error);
     }
@@ -59,13 +57,11 @@ const NewsManager = ({ token }) => {
 
   const fetchCategorias = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/categorias/`)
-      if (response.ok) {
-        const data = await response.json();
-        setCategorias(data);
-        if (data.length > 0 && !editingId) {
-          setFormData((prev) => ({ ...prev, categoria: data[0].id }));
-        }
+      const response = await api.get('categorias/'); 
+      const data = response.data;
+      setCategorias(data);
+      if (data.length > 0 && !editingId) {
+        setFormData((prev) => ({ ...prev, categoria: data[0].id }));
       }
     } catch (error) {
       console.error("Error cargando categorías:", error);
@@ -111,7 +107,7 @@ const NewsManager = ({ token }) => {
       imagen: null, 
     });
     setPreviewUrl(post.imagen); 
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Subimos la pantalla al formulario
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
   };
 
   // --- EDITOR DE TEXTO ---
@@ -148,43 +144,36 @@ const NewsManager = ({ token }) => {
     dataToSend.append("contenido", formData.contenido);
     dataToSend.append("categoria", formData.categoria);
     
-    // Solo se envia la imagen si el usuario subió un archivo nuevo
     if (formData.imagen instanceof File) {
       dataToSend.append("imagen", formData.imagen);
     }
 
-    // Se decide si se usa POST (crear) o PATCH (actualizar)
-    const method = editingId ? "PATCH" : "POST";
-    const url = editingId 
-        ? `${API_URL}/api/noticias/${editingId}/` 
-        : `${API_URL}/api/noticias/`;
-
     try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-            "Authorization": `Token ${token}`
-        },
-        body: dataToSend,
-      });
-
-      if (response.ok) {
-        toast.success(editingId ? "Noticia actualizada con éxito" : "Noticia publicada con éxito");
-        setEditingId(null);
-        setFormData({
-          titulo: "",
-          categoria: categorias.length > 0 ? categorias[0].id : "",
-          contenido: "",
-          imagen: null,
+      if (editingId) {
+        await api.patch(`noticias/${editingId}/`, dataToSend, {
+          headers: { 'Content-Type': 'multipart/form-data' }
         });
-        setPreviewUrl(null);
-        fetchPosts(); 
+        toast.success("Noticia actualizada con éxito");
       } else {
-        toast.error("Error al guardar. Verifique los campos o su sesión.");
+        await api.post('noticias/', dataToSend, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        toast.success("Noticia publicada con éxito");
       }
+
+      setEditingId(null);
+      setFormData({
+        titulo: "",
+        categoria: categorias.length > 0 ? categorias[0].id : "",
+        contenido: "",
+        imagen: null,
+      });
+      setPreviewUrl(null);
+      fetchPosts(); 
+      
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Error de conexión");
+      toast.error("Error al guardar. Verifique los campos o su sesión.");
     } finally {
       setLoading(false);
     }
@@ -200,23 +189,15 @@ const NewsManager = ({ token }) => {
     if (!window.confirm("¿Estás seguro de eliminar esta noticia permanentemente?")) return;
 
     try {
-      const response = await fetch(`${API_URL}/api/noticias/${id}/`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `Token ${token}`
-        },
-      });
+      await api.delete(`noticias/${id}/`); 
       
-      if (response.ok) {
-          fetchPosts();
-          toast.success("Noticia eliminada");
-          // Si estamos borrando la noticia que teníamos abierta para editar, limpiamos el formulario
-          if (editingId === id) handleCancel();
-      } else {
-          toast.error("No se pudo eliminar la noticia. Verifique su sesión.");
-      }
+      fetchPosts();
+      toast.success("Noticia eliminada");
+      if (editingId === id) handleCancel();
+      
     } catch (error) {
       console.error("Error al borrar:", error);
+      toast.error("No se pudo eliminar la noticia. Verifique su sesión.");
     }
   };
 

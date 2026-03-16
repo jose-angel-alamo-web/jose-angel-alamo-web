@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://127.0.0.1:8000/';
+const baseURL = 'http://127.0.0.1:8000/api/'; 
 
 const api = axios.create({
     baseURL: baseURL,
@@ -12,20 +12,17 @@ const api = axios.create({
 });
 
 // 1. INTERCEPTOR DE SOLICITUD
-// Inyecta el token en cada petición automáticamente
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('access');
         if (token) {
-            config.headers.Authorization = `JWT ${token}`;
+            config.headers.Authorization = `Bearer ${token}`; 
         }
         return config;
     },
     (error) => Promise.reject(error)
 );
 
-// 2. INTERCEPTOR DE RESPUESTA
-// Si el token vence, intenta renovarlo sin molestar al usuario
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -38,21 +35,22 @@ api.interceptors.response.use(
                 const refreshToken = localStorage.getItem('refresh');
                 
                 if (refreshToken) {
-                    const response = await axios.post(`${baseURL}auth/jwt/refresh/`, {
+                    // CAMBIO: La ruta correcta que hicimos en el backend
+                    const response = await axios.post(`${baseURL}token/refresh/`, {
                         refresh: refreshToken
                     });
 
                     localStorage.setItem('access', response.data.access);
 
-                    originalRequest.headers.Authorization = `JWT ${response.data.access}`;
+                    // CAMBIO: Usar Bearer
+                    originalRequest.headers.Authorization = `Bearer ${response.data.access}`;
                     return api(originalRequest);
                 }
             } catch (err) {
                 console.log("Sesión caducada, cerrando...");
                 localStorage.removeItem('access');
                 localStorage.removeItem('refresh');
-                localStorage.removeItem('usuario');
-                window.location.href = '/login';
+                window.location.href = '/'; // Te devuelve al inicio
             }
         }
         return Promise.reject(error);

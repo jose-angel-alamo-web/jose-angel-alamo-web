@@ -20,6 +20,7 @@ import NewsManager from "../components/NewsManager";
 import FilesManager from "../components/FilesManager";
 import InscripcionesManager from "../components/InscripcionManager";
 import { API_URL } from "../config";
+import api from "../api/axios";
 
 const theme = {
   primary: "bg-[#1B3A57]",
@@ -30,25 +31,25 @@ const theme = {
 const logoUrl = "https://i.imgur.com/yoiUI2Z.png";
 
 const SchoolAdmin = () => {
-  const [token, setToken] = useState(localStorage.getItem("adminToken"));
+  const [token, setToken] = useState(localStorage.getItem("access"));
   const [activeTab, setActiveTab] = useState("dashboard");
 
   // Verificar si hay sesión al cargar
   useEffect(() => {
-    const storedToken = localStorage.getItem("adminToken");
+    const storedToken = localStorage.getItem("access");
     if (storedToken) setToken(storedToken);
   }, []);
 
   // Función de Logout
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
     setToken(null);
   };
 
   // Si no hay token, mostrar Login
-  if (!token) {
+if (!token) {
     return <AdminLogin onLogin={(newToken) => {
-        localStorage.setItem("adminToken", newToken);
         setToken(newToken);
     }} />;
   }
@@ -112,7 +113,7 @@ const SchoolAdmin = () => {
   {activeTab === "inscripciones" && "Récord Virtual de Inscripciones"}
 </h2>
           <div className="flex items-center gap-4">
-             {/* Fecha Actual (Extra feature) */}
+             {/* Fecha Actual */}
              <div className="hidden md:flex items-center gap-2 text-sm text-gray-500 font-medium bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
                 <Calendar size={14} className="text-[#1B3A57]"/>
                 {new Date().toLocaleDateString('es-VE', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -150,23 +151,14 @@ const AdminLogin = ({ onLogin }) => {
     setLoading(true);
 
     try {
-        const response = await fetch(`${API_URL}/api-token-auth/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(credentials)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            onLogin(data.token);
-        } else {
-            setError("Credenciales incorrectas. Verifique usuario y contraseña.");
-        }
+        const response = await api.post('login/', credentials);
+        const { access, refresh } = response.data;
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
+        
+        onLogin(access);
     } catch (err) {
-        setError("Error de conexión con el servidor.");
+        setError("Credenciales incorrectas. Verifique usuario y contraseña.");
         console.error(err);
     } finally {
         setLoading(false);
@@ -254,52 +246,31 @@ const DashboardHome = ({ changeTab, token }) => {
     const [loadingStats, setLoadingStats] = useState(true);
 
     useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const [noticiasRes, archivosRes, inscripcionesRes] = await Promise.all([
-                    fetch(`${API_URL}/api/noticias/`),
-                    fetch(`${API_URL}/api/archivos/`),
-                    fetch(`${API_URL}/api/registro-inscripciones/`, {
-                        headers: {
-                            'Authorization': `Token ${token}` // Autorización obligatoria
-                        }
-                    })
-                ]);
+    const fetchStats = async () => {
+        try {
+            const [noticiasRes, archivosRes, inscripcionesRes] = await Promise.all([
+                api.get('noticias/'),
+                api.get('archivos/'),
+                api.get('registro-inscripciones/') 
+            ]);
 
-                let countNoticias = 0;
-                let countArchivos = 0;
-                let countInscripciones = 0;
+            setStats({
+                noticias: noticiasRes.data.length,
+                archivos: archivosRes.data.length,
+                inscripciones: inscripcionesRes.data.length
+            });
 
-                if (noticiasRes.ok) {
-                    const noticiasData = await noticiasRes.json();
-                    countNoticias = noticiasData.length;
-                }
-                if (archivosRes.ok) {
-                    const archivosData = await archivosRes.json();
-                    countArchivos = archivosData.length;
-                }
-                if (inscripcionesRes.ok) {
-                    const inscripcionesData = await inscripcionesRes.json();
-                    countInscripciones = inscripcionesData.length;
-                }
-                
-                setStats({
-                    noticias: countNoticias,
-                    archivos: countArchivos,
-                    inscripciones: countInscripciones
-                });
-
-            } catch (error) {
-                console.error("Error obteniendo estadísticas:", error);
-            } finally {
-                setLoadingStats(false);
-            }
-        };
-
-        if (token) {
-            fetchStats();
+        } catch (error) {
+            console.error("Error obteniendo estadísticas:", error);
+        } finally {
+            setLoadingStats(false);
         }
-    }, [token]);
+    };
+
+    if (token) {
+        fetchStats();
+    }
+}, [token]);
 
     return (
       <div className="space-y-8 animate-fade-in">

@@ -101,7 +101,7 @@ const AdmissionsPage = () => {
         {/* PASOS DE INSCRIPCIÓN */}
         <div className="relative border-l-4 border-gray-200 ml-4 md:ml-8 space-y-12">
             
-          {/* PASO 1 (Actualizado para el formulario online) */}
+          {/* PASO 1  */}
           <div className="relative pl-8 md:pl-12 group">
             <div className={`absolute -left-[22px] md:-left-[24px] top-0 w-10 h-10 md:w-12 md:h-12 rounded-full ${theme.primary} flex items-center justify-center text-white shadow-lg border-4 border-[#FDFBF7]`}>
               <MousePointerClick size={20} />
@@ -117,7 +117,7 @@ const AdmissionsPage = () => {
                   de manera precisa y verificable a través de nuestra plataforma.
                 </p>
                 <Link 
-                  to="/inscripcion" 
+                  to="/public-login" 
                   className={`inline-flex items-center gap-2 ${theme.accent} text-white px-5 py-2 rounded-md font-bold hover:bg-[#B71C1C] transition-all shadow-sm`}
                 >
                   <FileEdit size={18} />
@@ -151,7 +151,7 @@ const AdmissionsPage = () => {
             </div>
           </div>
 
-           {/* PASO 3 (Actualizado) */}
+           {/* PASO 3  */}
            <div className="relative pl-8 md:pl-12 group">
              <div className={`absolute -left-[22px] md:-left-[24px] top-0 w-10 h-10 md:w-12 md:h-12 rounded-full ${theme.primary} flex items-center justify-center text-white shadow-lg border-4 border-[#FDFBF7]`}>
               <CreditCard size={20} />
@@ -201,7 +201,7 @@ const AdmissionsPage = () => {
               Acceda a nuestro portal en línea para rellenar la planilla de manera cómoda, rápida y segura.
             </p>
             <Link 
-              to="/inscripcion" 
+              to="/public-login" 
               className={`inline-flex items-center justify-center gap-3 ${theme.accent} hover:bg-[#B71C1C] text-white text-lg px-8 py-4 rounded-full font-bold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1`}
             >
               <FileEdit size={24} />

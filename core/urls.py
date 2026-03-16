@@ -4,31 +4,32 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken import views 
 from django.contrib.auth import views as auth_views
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     # --- RUTAS PRINCIPALES ---
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')), 
+
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     path('api-token-auth/', views.obtain_auth_token), 
 
-    # --- RUTAS DE RECUPERACIÓN DE CONTRASEÑA ---
-    # 1. Formulario para pedir el correo
     path('reset_password/', 
          auth_views.PasswordResetView.as_view(template_name="password_reset.html"), 
          name ='reset_password'),
-
-    # 2. Mensaje de "Correo enviado"
     path('reset_password_sent/', 
         auth_views.PasswordResetDoneView.as_view(template_name="password_reset_sent.html"), 
         name ='password_reset_done'),
 
-    # 3. Link que llega al correo (para poner la nueva clave)
     path('reset/<uidb64>/<token>/', 
      auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_form.html"), 
      name ='password_reset_confirm'),
 
-    # 4. Mensaje de "Éxito, clave cambiada"
     path('reset_password_complete/', 
         auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_done.html"), 
         name ='password_reset_complete'),

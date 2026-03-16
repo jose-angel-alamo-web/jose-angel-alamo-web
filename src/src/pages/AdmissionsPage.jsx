@@ -53,8 +53,21 @@ const AdmissionsPage = () => {
     return `${API_URL}${url}`;
   };
 
-  const planillasNuevoIngreso = archivos.filter(a => a.categoria === "Planilla nuevo ingreso");
-  const planillasRegulares = archivos.filter(a => a.categoria === "Planilla reingreso");
+  const planillasNuevoIngreso = archivos.filter(a => {
+    const nombreCat = (a.tipo_archivo_nombre || a.categoria || "").toLowerCase();
+    return nombreCat.includes("nuevo ingreso");
+  });
+
+  const planillasRegulares = archivos.filter(a => {
+    const nombreCat = (a.tipo_archivo_nombre || a.categoria || "").toLowerCase();
+    return nombreCat.includes("reingreso") || nombreCat.includes("regulares");
+  });
+
+  const archivosOtros = archivos.filter(a => {
+    const nombreCat = (a.tipo_archivo_nombre || a.categoria || "").toLowerCase();
+    return !nombreCat.includes("nuevo ingreso") && !nombreCat.includes("reingreso") && !nombreCat.includes("regulares");
+  });
+  // -----------------------------------------------------------------------------------------
 
   const headerBg = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1600";
 
@@ -101,7 +114,7 @@ const AdmissionsPage = () => {
         {/* PASOS DE INSCRIPCIÓN */}
         <div className="relative border-l-4 border-gray-200 ml-4 md:ml-8 space-y-12">
             
-          {/* PASO 1  */}
+          {/* PASO 1 */}
           <div className="relative pl-8 md:pl-12 group">
             <div className={`absolute -left-[22px] md:-left-[24px] top-0 w-10 h-10 md:w-12 md:h-12 rounded-full ${theme.primary} flex items-center justify-center text-white shadow-lg border-4 border-[#FDFBF7]`}>
               <MousePointerClick size={20} />
@@ -151,7 +164,7 @@ const AdmissionsPage = () => {
             </div>
           </div>
 
-           {/* PASO 3  */}
+           {/* PASO 3 */}
            <div className="relative pl-8 md:pl-12 group">
              <div className={`absolute -left-[22px] md:-left-[24px] top-0 w-10 h-10 md:w-12 md:h-12 rounded-full ${theme.primary} flex items-center justify-center text-white shadow-lg border-4 border-[#FDFBF7]`}>
               <CreditCard size={20} />
@@ -218,7 +231,7 @@ const AdmissionsPage = () => {
           </p>
         </div>
 
-        {/* --- ZONA DE DESCARGAS  --- */}
+        {/* --- ZONA DE DESCARGAS --- */}
         <section className="mt-20 border-t border-gray-200 pt-16" id="descargas">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-serif font-bold text-[#1B3A57] mb-4">
@@ -306,11 +319,11 @@ const AdmissionsPage = () => {
                 </div>
 
                 {/* OTROS ARCHIVOS */}
-                {archivos.filter(a => a.categoria === "Otro").length > 0 && (
+                {archivosOtros.length > 0 && (
                     <div className="md:col-span-2 mt-4 pt-6 border-t border-gray-100">
                         <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Otros Documentos de Interés</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                            {archivos.filter(a => a.categoria === "Otro").map(file => (
+                            {archivosOtros.map(file => (
                                 <a 
                                     key={file.id}
                                     href={getFileUrl(file.archivo_pdf)}

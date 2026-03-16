@@ -151,7 +151,7 @@ const AdminLogin = ({ onLogin }) => {
     setLoading(true);
 
     try {
-        const response = await api.post('login/', credentials);
+        const response = await api.post('admin-login/', credentials);
         const { access, refresh } = response.data;
         localStorage.setItem('access', access);
         localStorage.setItem('refresh', refresh);

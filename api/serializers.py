@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Noticia, Archivo, Categoria, TipoArchivo, Grado, Estudiante, RegistroInscripcion
+from .models import Noticia, Archivo, Categoria, TipoArchivo, Grado, Estudiante, RegistroInscripcion, PreguntaSeguridad
 
 # --- Serializadores Catálogo ---
 class CategoriaSerializer(serializers.ModelSerializer):
@@ -80,3 +80,8 @@ class RegistroInscripcionSerializer(serializers.ModelSerializer):
             estudiante.save()
         inscripcion = RegistroInscripcion.objects.create(estudiante=estudiante, **validated_data)
         return inscripcion
+    
+class PreguntaSeguridadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PreguntaSeguridad
+        fields = ['id', 'pregunta']

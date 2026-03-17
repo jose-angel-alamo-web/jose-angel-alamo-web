@@ -84,3 +84,17 @@ class Auditoria(models.Model):
     def __str__(self):
         username = self.usuario.username if self.usuario else "Sistema"
         return f"[{self.fecha.strftime('%Y-%m-%d %H:%M')}] {username} - {self.accion} en {self.tabla_afectada}"
+
+class PreguntaSeguridad(models.Model):
+    pregunta = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.pregunta
+
+class RespuestaSeguridad(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='respuestas_seguridad')
+    pregunta = models.ForeignKey(PreguntaSeguridad, on_delete=models.CASCADE)
+    respuesta = models.CharField(max_length=200) # Se guardará en minúsculas para evitar errores tipográficos
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.pregunta.pregunta}"

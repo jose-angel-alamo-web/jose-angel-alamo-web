@@ -8,6 +8,7 @@ import RequirementsPage from './pages/RequirementsPage';
 import NewsListPage from './pages/NewsListPage';
 import NewsDetailPage from "./pages/NewsDetailPage";
 import InscripcionPage from "./pages/InscripcionPage"; 
+import PasswordReset from './components/PasswordReset';
 import PublicLogin from './components/PublicLogin';
 
 import { Toaster } from 'react-hot-toast';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/blogs" element={<NewsListPage />} />
           <Route path="/blogs/:id" element={<NewsDetailPage />} />
           <Route path="/public-login" element={<PublicLogin />} />
+          <Route path="/recuperar-password" element={<PasswordReset />} />
         </Routes>
       </BrowserRouter>
     </div><div>
